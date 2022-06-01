@@ -4,6 +4,7 @@ use serde::Serialize;
 
 #[derive(Serialize, Debug)]
 #[serde(rename_all = "camelCase")]
+#[serde(rename = "project")]
 pub struct Project {
     pub xmlns: String,
     #[serde(rename = "xml:xsi")]
