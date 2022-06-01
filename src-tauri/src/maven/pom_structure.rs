@@ -30,7 +30,32 @@ pub struct Project {
 
 #[derive(Serialize, Debug)]
 #[serde(rename_all = "camelCase")]
-pub struct Build {}
+pub struct Build {
+    pub plugin_management: PluginManagement,
+    pub plugins: Plugins,
+}
+
+#[derive(Serialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct Plugins {
+    #[serde(rename = "plugin")]
+    plugins: Vec<Plugin>,
+}
+
+#[derive(Serialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct Plugin {
+    #[serde(rename = "$unflatten=groupId")]
+    pub group_id: String,
+    #[serde(rename = "$unflatten=artifactId")]
+    pub artifact_id: String,
+    #[serde(rename = "$unflatten=version")]
+    pub version: String,
+}
+
+#[derive(Serialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct PluginManagement {}
 
 #[derive(Serialize, Debug)]
 #[serde(rename_all = "camelCase")]
@@ -86,6 +111,27 @@ mod tests {
             dependencies: vec![jupiter_api, jupiter_engine, assertj],
         };
 
+        let surefire = Plugin {
+            group_id: "org.apache.maven.plugins".to_string(),
+            artifact_id: "maven-surefire-plugin".to_string(),
+            version: "2.22.2".to_string(),
+        };
+
+        let failsafe = Plugin {
+            group_id: "org.apache.maven.plugins".to_string(),
+            artifact_id: "maven-failsafe-plugin".to_string(),
+            version: "2.22.2".to_string(),
+        };
+
+        let plugins = Plugins {
+            plugins: vec![surefire, failsafe],
+        };
+
+        let build = Build {
+            plugin_management: PluginManagement {},
+            plugins,
+        };
+
         let project = Project {
             xmlns: "http://maven.apache.org/POM/4.0.0".to_string(),
             xsi: "http://www.w3.org/2001/XMLSchema-instance".to_string(),
@@ -100,7 +146,7 @@ mod tests {
             name: "A project based on java17maven".to_string(),
             properties: Properties {},
             dependencies,
-            build: Build {},
+            build,
         };
 
         let str = to_string(&project).unwrap();
