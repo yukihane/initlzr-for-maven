@@ -5,7 +5,7 @@
 
 #[tauri::command]
 fn generate() -> Result<(), String> {
-    app::generate();
+    let result = app::generate();
 
     Ok(())
 }
