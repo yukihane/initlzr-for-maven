@@ -52,6 +52,8 @@ pub struct Dependency {
     pub artifact_id: String,
     #[serde(rename = "$unflatten=version")]
     pub version: String,
+    #[serde(rename = "$unflatten=scope")]
+    pub scope: String,
 }
 
 #[cfg(test)]
@@ -61,18 +63,27 @@ mod tests {
 
     #[test]
     fn it_works() {
-        let dep1 = Dependency {
-            group_id: "test".to_string(),
-            artifact_id: "test".to_string(),
-            version: "1.0.0".to_string(),
+        let jupiter_api = Dependency {
+            group_id: "org.junit.jupiter".to_string(),
+            artifact_id: "junit-jupiter-api".to_string(),
+            version: "5.8.2".to_string(),
+            scope: "test".to_string(),
         };
-        let dep2 = Dependency {
-            group_id: "test".to_string(),
-            artifact_id: "test".to_string(),
-            version: "1.0.0".to_string(),
+        let jupiter_engine = Dependency {
+            group_id: "org.junit.jupiter".to_string(),
+            artifact_id: "junit-jupiter-engine".to_string(),
+            version: "5.8.2".to_string(),
+            scope: "test".to_string(),
         };
+        let assertj = Dependency {
+            group_id: "org.assertj".to_string(),
+            artifact_id: "assertj-core".to_string(),
+            version: "3.23.1".to_string(),
+            scope: "test".to_string(),
+        };
+
         let dependencies = Dependencies {
-            dependencies: vec![dep1, dep2],
+            dependencies: vec![jupiter_api, jupiter_engine, assertj],
         };
 
         let project = Project {
