@@ -1,5 +1,5 @@
 pub mod maven;
 
-pub fn generate() {
-    println!("generated");
+pub fn generate() -> String {
+    "TODO".to_string()
 }

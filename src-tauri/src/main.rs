@@ -4,10 +4,10 @@
 )]
 
 #[tauri::command]
-fn generate() -> Result<(), String> {
+fn generate() -> Result<String, String> {
     let result = app::generate();
 
-    Ok(())
+    Ok(result)
 }
 
 fn main() {
