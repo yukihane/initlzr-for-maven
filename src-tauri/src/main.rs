@@ -1,10 +1,18 @@
 #![cfg_attr(
-  all(not(debug_assertions), target_os = "windows"),
-  windows_subsystem = "windows"
+    all(not(debug_assertions), target_os = "windows"),
+    windows_subsystem = "windows"
 )]
 
+#[tauri::command]
+fn generate() -> Result<String, String> {
+    let result = app::generate();
+
+    Ok(result)
+}
+
 fn main() {
-  tauri::Builder::default()
-    .run(tauri::generate_context!())
-    .expect("error while running tauri application");
+    tauri::Builder::default()
+        .invoke_handler(tauri::generate_handler![generate])
+        .run(tauri::generate_context!())
+        .expect("error while running tauri application");
 }
