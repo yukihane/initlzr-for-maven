@@ -7,7 +7,7 @@ use serde::Serialize;
 #[serde(rename = "project")]
 pub struct Project {
     pub xmlns: String,
-    #[serde(rename = "xml:xsi")]
+    #[serde(rename = "xmlns:xsi")]
     pub xsi: String,
     #[serde(rename = "xsi:schemaLocation")]
     pub schema_location: String,
@@ -39,7 +39,7 @@ pub struct Build {
 #[serde(rename_all = "camelCase")]
 pub struct Plugins {
     #[serde(rename = "plugin")]
-    plugins: Vec<Plugin>,
+    pub plugins: Vec<Plugin>,
 }
 
 #[derive(Serialize, Debug)]
