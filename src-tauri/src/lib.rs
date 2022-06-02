@@ -60,7 +60,7 @@ pub fn generate() -> String {
         version: "0.0.1-SNAPSHOT".to_string(),
         packaging: "jar".to_string(),
         name: "A project based on java17maven".to_string(),
-        properties: Properties {},
+        properties: Properties { properties: vec![] },
         dependencies,
         build,
     };

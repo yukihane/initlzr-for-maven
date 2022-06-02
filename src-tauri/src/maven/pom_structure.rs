@@ -1,6 +1,6 @@
 // https://maven.apache.org/xsd/maven-4.0.0.xsd
 
-use serde::Serialize;
+use serde::{Serialize, Serializer};
 
 #[derive(Serialize, Debug)]
 #[serde(rename_all = "camelCase")]
@@ -57,9 +57,23 @@ pub struct Plugin {
 #[serde(rename_all = "camelCase")]
 pub struct PluginManagement {}
 
-#[derive(Serialize, Debug)]
-#[serde(rename_all = "camelCase")]
-pub struct Properties {}
+#[derive(Debug)]
+pub struct Properties {
+    pub properties: Vec<(String, String)>,
+}
+
+impl Serialize for Properties {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.collect_map(
+            self.properties
+                .iter()
+                .map(|k| (k.0.to_string(), k.1.to_string())),
+        )
+    }
+}
 
 #[derive(Serialize, Debug)]
 #[serde(rename_all = "camelCase")]
@@ -144,7 +158,9 @@ mod tests {
             version: "0.0.1-SNAPSHOT".to_string(),
             packaging: "jar".to_string(),
             name: "A project based on java17maven".to_string(),
-            properties: Properties {},
+            properties: Properties {
+                properties: vec![("test.key".to_string(), "test.value".to_string())],
+            },
             dependencies,
             build,
         };
