@@ -7,13 +7,13 @@ pub fn generate() -> String {
     let jupiter_api = Dependency {
         group_id: "org.junit.jupiter".to_string(),
         artifact_id: "junit-jupiter-api".to_string(),
-        version: "5.8.2".to_string(),
+        version: "${junit.version}".to_string(),
         scope: "test".to_string(),
     };
     let jupiter_engine = Dependency {
         group_id: "org.junit.jupiter".to_string(),
         artifact_id: "junit-jupiter-engine".to_string(),
-        version: "5.8.2".to_string(),
+        version: "${junit.version}".to_string(),
         scope: "test".to_string(),
     };
     let assertj = Dependency {
@@ -60,7 +60,21 @@ pub fn generate() -> String {
         version: "0.0.1-SNAPSHOT".to_string(),
         packaging: "jar".to_string(),
         name: "A project based on java17maven".to_string(),
-        properties: Properties { properties: vec![] },
+        properties: Properties {
+            properties: vec![
+                (
+                    "project.build.sourceEncoding".to_string(),
+                    "UTF-8".to_string(),
+                ),
+                (
+                    "project.reporting.outputEncoding".to_string(),
+                    "UTF-8".to_string(),
+                ),
+                ("maven.compiler.source".to_string(), "17".to_string()),
+                ("maven.compiler.target".to_string(), "17".to_string()),
+                ("junit.version".to_string(), "5.8.2".to_string()),
+            ],
+        },
         dependencies,
         build,
     };
