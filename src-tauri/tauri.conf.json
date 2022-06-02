@@ -14,6 +14,9 @@
     "allowlist": {
       "dialog": {
         "save": true
+      },
+      "fs": {
+        "writeFile": true
       }
     },
     "bundle": {
