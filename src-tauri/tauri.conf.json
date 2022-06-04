@@ -13,7 +13,7 @@
   "tauri": {
     "allowlist": {
       "dialog": {
-        "save": true
+        "open": true
       },
       "fs": {
         "writeFile": true

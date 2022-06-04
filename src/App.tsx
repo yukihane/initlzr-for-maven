@@ -1,16 +1,20 @@
 import { fs, invoke } from "@tauri-apps/api";
-import { save } from "@tauri-apps/api/dialog";
+import { open } from "@tauri-apps/api/dialog";
 import React from "react";
+import { path } from "path";
 
 export const App = () => {
   const saveContent = (contents: string) => {
-    save().then((path) => {
-      if (path === null) {
+    open({ directory: true }).then((directory) => {
+      if (directory === null) {
         return;
       }
+
+      const x = Array.isArray(directory) ? directory[0] : directory;
+      path.join(x, "pom.xml");
       fs.writeFile({
         contents,
-        path,
+        path: x,
       });
     });
   };
