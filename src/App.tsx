@@ -1,17 +1,16 @@
 import { fs, invoke } from "@tauri-apps/api";
-import { save } from "@tauri-apps/api/dialog";
+import { open } from "@tauri-apps/api/dialog";
 import React from "react";
 
 export const App = () => {
-  const saveContent = (contents: string) => {
-    save().then((path) => {
-      if (path === null) {
+  const saveContent = (content: string) => {
+    open({ directory: true }).then((directory) => {
+      if (directory === null) {
         return;
       }
-      fs.writeFile({
-        contents,
-        path,
-      });
+
+      const path = Array.isArray(directory) ? directory[0] : directory;
+      invoke<string>("save", { path, content }).then((msg) => console.log(msg));
     });
   };
 
