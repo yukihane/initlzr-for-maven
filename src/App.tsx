@@ -1,4 +1,5 @@
-import { fs, invoke } from "@tauri-apps/api";
+import { Button } from "@mui/material";
+import { invoke } from "@tauri-apps/api";
 import { open } from "@tauri-apps/api/dialog";
 import React from "react";
 
@@ -23,7 +24,9 @@ export const App = () => {
 
   return (
     <div>
-      <button onClick={() => handleClicked()}>生成</button>
+      <Button variant="contained" onClick={() => handleClicked()}>
+        生成
+      </Button>
     </div>
   );
 };
